@@ -22,7 +22,7 @@ module GaEvents
         serialized = GaEvents::List.to_s
         if xhr_or_turbolinks?(request)
           # AJAX request
-          headers['x-ga-events'] = CGI.escapeURIComponent(serialized)
+          headers['x-ga-events'] = serialized
         elsif redirect?(status)
           # 30x/redirect? Then add event list to rack session to survive the
           # redirect.
@@ -56,7 +56,7 @@ module GaEvents
 
     def inject_div(response, serialized_data)
       r = normalize_response(response)
-      [r.sub('</body>', "<div data-ga-events='#{serialized_data}'></div>\\0")]
+      [r.sub('</footer>', "</footer><div data-ga-events='#{serialized_data}'></div>")]
     end
 
     # Taken from:

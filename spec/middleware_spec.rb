@@ -20,9 +20,9 @@ describe GaEvents::Middleware do
         end
       end
 
-      context 'there exists body closing tag' do
+      context 'there exists footer closing tag' do
         let(:response) { request.get('/') }
-        let(:response_body) { 'something awesome!</body>' }
+        let(:response_body) { '</footer>something awesome!' }
 
         it 'leaves everything as it was' do
           expect(response.body).to eq response_body
@@ -45,14 +45,14 @@ describe GaEvents::Middleware do
         end
       end
 
-      context 'when a body closing tag exists' do
+      context 'when a footer closing tag exists' do
         let(:response) { request.get('/') }
-        let(:response_body) { 'something awesome!</body>' }
+        let(:response_body) { '</footer>something awesome!' }
 
         it 'injects data-ga-events' do
           expect(response.body).to eq(
             'something awesome!' \
-            "<div data-ga-events='[{\"__event__\":\"test\",\"cool\":\"stuff\"}]'></div></body>"
+            "</footer><div data-ga-events='[{\"__event__\":\"test\",\"cool\":\"stuff\"}]'></div>"
           )
         end
       end

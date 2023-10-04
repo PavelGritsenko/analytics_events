@@ -22,7 +22,7 @@ module GaEvents
         serialized = GaEvents::List.to_s
         if xhr_or_turbolinks?(request)
           # AJAX request
-          headers['x-ga-events'] = serialized
+          headers['x-ga-events'] = CGI.escapeURIComponent(serialized)
         elsif redirect?(status)
           # 30x/redirect? Then add event list to rack session to survive the
           # redirect.
